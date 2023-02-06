@@ -19,46 +19,6 @@ import javax.sql.DataSource;
 @EnableAsync
 @Slf4j
 public class AppConfig {
-    @Value("${app.postgres.driver}")
-    private String dbDriverPostgres;
-    @Value("${app.postgres.url}")
-    private String jdbcUrlPostgres;
-    @Value("${app.postgres.user}")
-    private String dbUserPostgres;
-    @Value("${app.postgres.password}")
-    private String dbPasswordPostgres;
-
-    @Value("${app.mssql.driver}")
-    private String dbDriverMsSql;
-    @Value("${app.mssql.url.list}")
-    private String jdbcUrlMsSql;
-    @Value("${app.mssql.user}")
-    private String dbUserMsSql;
-    @Value("${app.mssql.password}")
-    private String dbPasswordMsSql;
-
-
-    public DataSource postgresDataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(dbDriverPostgres);
-        dataSource.setUrl(jdbcUrlPostgres);
-        dataSource.setUsername(dbUserPostgres);
-        dataSource.setPassword(dbPasswordPostgres);
-
-        return dataSource;
-    }
-
-    public DataSource mssqlDataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(dbDriverMsSql);
-        dataSource.setUrl(jdbcUrlMsSql);
-        dataSource.setUsername(dbUserMsSql);
-        dataSource.setPassword(dbPasswordMsSql);
-
-        return dataSource;
-    }
-
-
     @Bean
     @ConfigurationProperties(prefix = "spring.mssql")
     public DataSource dataSourceMsSql() {

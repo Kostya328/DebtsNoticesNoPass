@@ -21,7 +21,6 @@ import java.util.Objects;
 public class NoticesService {
     private final EmailSendingService emailSendingService;
     private final DatabaseService databaseService;
-    private final AppConfig appConfig;
     public boolean inProcess = false;
 
     SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm");
@@ -106,24 +105,28 @@ public class NoticesService {
 
     public void startEmailSending(List<Debts> debtsList) {
         inProcess = true;
+        int emailSandedCount = 0;
         try {
-            DataSource postgresDataSource = appConfig.postgresDataSource();
             for (Debts debts : debtsList) {
-                List<EmailLog> emailLogList = databaseService.emailLogList(postgresDataSource, debts.getOrdinance());
+                List<EmailLog> emailLogList = databaseService.emailLogList(debts.getOrdinance());
                 Timestamp now = new Timestamp(new Date().getTime());
                 if (sendManager(debts, emailLogList)) {
+                    emailSandedCount++;
                     log.info("Почта отправлена менеджеру");
-                    databaseService.wrightEmailLog(postgresDataSource, new EmailLog(0, debts.getOrdinance(), now, 1));
+                    databaseService.wrightEmailLog(new EmailLog(0, debts.getOrdinance(), now, 1));
                 } else if (sendDriver(debts, emailLogList, 0, 0)) {
+                    emailSandedCount++;
                     log.info("Почта отправлена водителю первый раз");
-                    databaseService.wrightEmailLog(postgresDataSource, new EmailLog(0, debts.getOrdinance(), now, 0));
+                    databaseService.wrightEmailLog(new EmailLog(0, debts.getOrdinance(), now, 0));
                 } else if (sendDriver(debts, emailLogList, 1, 10)) {
+                    emailSandedCount++;
                     log.info("Почта отправлена водителю второй раз");
-                    databaseService.wrightEmailLog(postgresDataSource, new EmailLog(0, debts.getOrdinance(), now, 0));
+                    databaseService.wrightEmailLog(new EmailLog(0, debts.getOrdinance(), now, 0));
                 }
             }
         } finally {
             inProcess = false;
+            log.info("Отправка "+emailSandedCount+" писем завершена");
         }
     }
 }

@@ -6,6 +6,7 @@ import check.debts.debts_notices.service.DatabaseService;
 import check.debts.debts_notices.service.NoticesService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +22,9 @@ import java.util.List;
 public class Controller {
     private final NoticesService noticesService;
     private final DatabaseService databaseService;
-    private final AppConfig appConfig;
+
+    @Value("${app.param.brn}")
+    private String brn;
 
     @GetMapping("/start/email")
     public ResponseEntity<String> testEmail() {
@@ -29,9 +32,9 @@ public class Controller {
             return ResponseEntity.ok("Отправка писем уже в ппроцессе, повторите запрос позже");
 
         log.info("Пришел rest запрос на отправку почты");
-        List<Debts> debtsList = databaseService.getDebtsList(appConfig.mssqlDataSource(), 4);
+        List<Debts> debtsList = databaseService.getDebtsList(Integer.parseInt(brn));
         noticesService.startEmailSendingAsync(debtsList);
 
-        return ResponseEntity.ok("Почта отправлена, всего: " + debtsList.size() + " неоплаченых штрафов " + new Date());
+        return ResponseEntity.ok("Начата отправка, всего: " + debtsList.size() + " неоплаченых штрафов " + new Date());
     }
 }
