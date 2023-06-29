@@ -25,7 +25,7 @@ public class NoticesService {
 
     SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm");
     private final long DAY = 86400000L;
-    private final String MANAGER_EMAIL = "kkorneev331@gmail.com";
+    private final String MANAGER_EMAIL = "***";
 
     public void sendNotice(Debts debts, String email) {
         String half = debts.getPaytoHalf().getTime() > new Date().getTime() ? String.format("Льготная оплата %s до %s\n", debts.getSumHalf(), sdf.format(debts.getPaytoHalf())) : "";
@@ -43,7 +43,7 @@ public class NoticesService {
                 "%s" +
                 "\n" +
                 "Просим Вас оплатить штраф в кротчайшее время.\n" +
-                "Для этого можете воспользоваться личном кабинетом «Флит Стар» пройдя по ссылке https://fs2.ining.ru/\n" +
+                "Для этого можете воспользоваться личном кабинетом «Флит Стар» пройдя по ссылке ***\n" +
                 "\n" +
                 "\n" +
                 "С уважением и наилучшими пожеланиями,\n" +

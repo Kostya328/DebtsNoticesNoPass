@@ -14,8 +14,8 @@ public class EmailSendingService {
 
     public void sendEmail(String sendTo, String header, String body) {
         SimpleMailMessage msg = new SimpleMailMessage();
-        msg.setTo("m1607@yandex.ru", sendTo);
-        msg.setFrom("checkdebts@ining.ru");
+        msg.setTo("***", sendTo);
+        msg.setFrom("***");
 
         msg.setSubject(header);
         msg.setText(body);
