@@ -20,9 +20,9 @@ public class ScheduleService {
     @Value("${app.param.brn}")
     private String brn;
 
-    @Scheduled(cron = "${app.cron.expression}", zone = ConvertHelper.MOSCOW_TIME_ZONE)
-    public void startMainProcess() {
-        List<Debts> debtsList = databaseService.getDebtsList(Integer.parseInt(brn));
-        noticesService.startEmailSendingAsync(debtsList);
-    }
+//    @Scheduled(cron = "${app.cron.expression}", zone = ConvertHelper.MOSCOW_TIME_ZONE)
+//    public void startMainProcess() {
+//        List<Debts> debtsList = databaseService.getDebtsList(Integer.parseInt(brn));
+//        noticesService.startEmailSendingAsync(debtsList);
+//    }
 }

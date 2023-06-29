@@ -80,8 +80,8 @@ public class NoticesService {
         long now = new Date().getTime();
 
         if(!sandedManager && timestamp < now-DAY*3 && debts.getPaytodte().getTime() > now && emailLogList.size() == tryNumber && debts.getDbtdte().getTime()+DAY*minDaysAfterDbtdte < now) {
-//            sendNotice(debts, debts.getEmail());
-            sendNotice(debts, MANAGER_EMAIL);
+            sendNotice(debts, debts.getEmail());
+//            sendNotice(debts, MANAGER_EMAIL);
             return true;
         } else
             return false;
